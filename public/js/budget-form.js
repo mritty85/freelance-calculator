@@ -252,19 +252,32 @@ const BudgetForm = (function() {
   }
 
   function toggleExpenseDetail() {
-    const useSimplified = document.getElementById('use-simplified').checked;
-    document.getElementById('simplified-expenses').style.display = useSimplified ? 'block' : 'none';
-    document.getElementById('detailed-expenses').style.display = useSimplified ? 'none' : 'block';
+    const simplifiedCheckbox = document.getElementById('use-simplified');
+    const simplifiedSection = document.getElementById('simplified-expenses');
+    const detailedSection = document.getElementById('detailed-expenses');
+
+    if (simplifiedCheckbox && simplifiedSection && detailedSection) {
+      const useSimplified = simplifiedCheckbox.checked;
+      simplifiedSection.style.display = useSimplified ? 'block' : 'none';
+      detailedSection.style.display = useSimplified ? 'none' : 'block';
+    }
   }
 
   function toggleHealthInsurance() {
-    const needsInsurance = document.getElementById('needs-health-insurance').checked;
-    document.getElementById('health-insurance-details').style.display = needsInsurance ? 'block' : 'none';
+    const insuranceCheckbox = document.getElementById('needs-health-insurance');
+    const detailsSection = document.getElementById('health-insurance-details');
+
+    if (insuranceCheckbox && detailsSection) {
+      detailsSection.style.display = insuranceCheckbox.checked ? 'block' : 'none';
+    }
   }
 
   function toggleBusinessExpenseDetail() {
-    const customize = document.getElementById('customize-biz-expenses').checked;
-    document.getElementById('biz-expense-detail').style.display = customize ? 'block' : 'none';
+    const customizeCheckbox = document.getElementById('customize-biz-expenses');
+    const detailSection = document.getElementById('biz-expense-detail');
+    if (customizeCheckbox && detailSection) {
+      detailSection.style.display = customizeCheckbox.checked ? 'block' : 'none';
+    }
   }
 
   // ==============================================================================
