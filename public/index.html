@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freelance Rate Calculator - Know Your Worth</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div id="loading-overlay">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <div class="loading-message">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="section" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; text-align: center;">
+    <div class="container">
+      <h1>Freelance Rate Calculator</h1>
+      <p class="text-large" style="color: rgba(255,255,255,0.9);">Calculate your true income needs and discover your ideal hourly rate</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="section">
+    <div class="container-sm">
+      <div class="card">
+        <div class="card-header">
+          <h2>The Problem Most Freelancers Face</h2>
+        </div>
+
+        <div class="alert alert-warning">
+          <strong>Did you know?</strong> Most freelancers leave $10,000-$30,000 on the table annually due to:
+        </div>
+
+        <ul style="margin: 1.5rem 0; padding-left: 2rem;">
+          <li style="margin-bottom: 0.75rem;"><strong>Inaccurate rate calculations</strong> - Existing tools get tax math wrong (30-40% error)</li>
+          <li style="margin-bottom: 0.75rem;"><strong>Hidden costs overlooked</strong> - Self-employment tax, health insurance, PTO replacement</li>
+          <li style="margin-bottom: 0.75rem;"><strong>Unrealistic billable hours</strong> - Forgetting about proposals, admin, and gaps between projects</li>
+        </ul>
+
+        <div class="alert alert-success">
+          <strong>Our Solution:</strong> A comprehensive budget builder that calculates your TRUE income needs, including all taxes, overhead, and hidden costs - then converts that into your ideal hourly rate.
+        </div>
+
+        <h3 style="margin-top: 2rem;">What Makes Us Different</h3>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
+          <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+            <h4>✅ Accurate Tax Math</h4>
+            <p class="text-small text-muted">We calculate self-employment tax, federal, and state taxes correctly - with all proper deductions.</p>
+          </div>
+
+          <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+            <h4>✅ Complete Picture</h4>
+            <p class="text-small text-muted">Accounts for health insurance, retirement, business expenses, cash flow buffer, and PTO replacement.</p>
+          </div>
+
+          <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+            <h4>✅ Smart Defaults</h4>
+            <p class="text-small text-muted">Location and service-based suggestions make the process faster while remaining accurate.</p>
+          </div>
+
+          <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+            <h4>✅ Transparent</h4>
+            <p class="text-small text-muted">See exactly where every dollar goes with a comprehensive breakdown.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">How It Works</h3>
+
+        <ol style="margin: 1.5rem 0; padding-left: 2rem;">
+          <li style="margin-bottom: 1rem;"><strong>Build Your Budget</strong> - Tell us about your personal expenses and business overhead</li>
+          <li style="margin-bottom: 1rem;"><strong>We Calculate Taxes</strong> - Using 2025 tax brackets and your specific situation</li>
+          <li style="margin-bottom: 1rem;"><strong>See Your Gross Need</strong> - The total income required to meet all your costs</li>
+          <li style="margin-bottom: 1rem;"><strong>Get Your Rate</strong> - Convert to hourly/project rates with walk-away numbers</li>
+        </ol>
+
+        <div style="text-align: center; margin-top: 3rem;">
+          <a href="budget-builder.html" class="btn btn-primary btn-lg">
+            Start Building Your Budget →
+          </a>
+          <p class="text-small text-muted" style="margin-top: 1rem;">Takes 5-10 minutes • Free to use • No credit card required</p>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div style="text-align: center; margin-top: 2rem;">
+        <p class="text-xs text-light">
+          <strong>Disclaimer:</strong> These calculations provide estimates for planning purposes only.
+          Actual tax liability may vary based on deductions, credits, and individual circumstances.
+          Consult a CPA for tax filing.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #f9fafb; padding: 2rem 0; text-align: center; margin-top: 4rem;">
+    <div class="container">
+      <p class="text-small text-muted">© 2025 Freelance Rate Calculator. Built to help freelancers know their worth.</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

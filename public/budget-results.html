@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Budget Breakdown - Freelance Rate Calculator</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1rem 0;">
+    <div class="container">
+      <h2>Your Complete Budget Breakdown</h2>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="section">
+    <div class="container-sm">
+      <!-- Big Reveal -->
+      <div class="budget-summary">
+        <p class="text-large">To meet all your financial goals as a freelancer, you need to earn:</p>
+        <div id="gross-income-needed" class="budget-summary-amount">$135,570</div>
+        <p>GROSS ANNUAL INCOME</p>
+        <p class="text-large" style="margin-top: 1rem;">That's <span id="monthly-gross">$11,298</span>/month</p>
+      </div>
+
+      <!-- Key Insight Alert -->
+      <div class="alert alert-warning">
+        <strong>💡 KEY INSIGHT:</strong>
+        <p id="key-insight">To take home $66,000 in your pocket, you need to earn 105% MORE ($135,570). Your tax + overhead burden is 51.3% of gross income.</p>
+        <p style="margin-top: 0.5rem;"><strong>This is why your W-2 salary ≠ your freelance rate!</strong> A $66k salary = needing $135k as a freelancer.</p>
+      </div>
+
+      <!-- Complete Breakdown -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Where Every Dollar Goes</h3>
+        </div>
+
+        <!-- Personal Take-Home -->
+        <div style="margin-bottom: 2rem;">
+          <h4 style="color: var(--primary-color);">Personal Take-Home (what you live on)</h4>
+          <div id="personal-breakdown" class="budget-breakdown">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Business Overhead -->
+        <div style="margin-bottom: 2rem;">
+          <h4 style="color: var(--secondary-color);">Business Overhead (cost of being freelance)</h4>
+          <div id="overhead-breakdown" class="budget-breakdown">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Taxes -->
+        <div style="margin-bottom: 2rem;">
+          <h4 style="color: var(--danger-color);">Tax Obligations (unavoidable)</h4>
+          <div id="tax-breakdown" class="budget-breakdown">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Total -->
+        <div class="breakdown-item" style="border-top: 2px solid var(--border-color); padding-top: 1.5rem; margin-top: 1.5rem;">
+          <div class="breakdown-label" style="font-size: 1.25rem;">TOTAL GROSS NEEDED:</div>
+          <div class="breakdown-value" id="total-gross" style="font-size: 1.5rem; color: var(--primary-color);">$135,570</div>
+        </div>
+      </div>
+
+      <!-- Tax Details -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Tax Calculation Details</h3>
+        </div>
+
+        <div id="tax-details">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <div class="alert alert-info mt-3">
+          <strong>Note:</strong> These calculations account for:
+          <ul style="margin: 0.5rem 0 0 1.5rem;">
+            <li>Self-employment tax (15.3%) with proper deductions</li>
+            <li>Federal income tax using 2025 progressive brackets</li>
+            <li>State income tax for your location</li>
+            <li>Standard deduction and health insurance deduction</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="card" style="background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);">
+        <div class="card-header">
+          <h3>What's Next?</h3>
+        </div>
+
+        <p><strong>Now that you know your gross income need ($135,570), let's convert this into hourly and project rates.</strong></p>
+
+        <div style="margin: 2rem 0;">
+          <div style="padding: 1rem; background: white; border-radius: 0.5rem; border-left: 4px solid var(--primary-color); margin-bottom: 1rem;">
+            <strong>Step 1:</strong> Tell us your working hours (billable hours per week)
+          </div>
+          <div style="padding: 1rem; background: white; border-radius: 0.5rem; border-left: 4px solid var(--primary-color); margin-bottom: 1rem;">
+            <strong>Step 2:</strong> We'll calculate your minimum hourly rate
+          </div>
+          <div style="padding: 1rem; background: white; border-radius: 0.5rem; border-left: 4px solid var(--primary-color);">
+            <strong>Step 3:</strong> Get your recommended rate, walk-away number, and project pricing
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="rate-calculator.html" class="btn btn-primary btn-lg">
+            Continue to Rate Calculator →
+          </a>
+        </div>
+      </div>
+
+      <!-- Download Options -->
+      <div style="text-align: center; margin-top: 2rem;">
+        <button id="btn-download-pdf" class="btn btn-outline">Download as PDF</button>
+        <button id="btn-email" class="btn btn-outline">Email to Me</button>
+        <button id="btn-recalculate" class="btn btn-secondary">Recalculate Budget</button>
+      </div>
+
+      <!-- Disclaimer -->
+      <div style="margin-top: 3rem; padding: 1.5rem; background: #f9fafb; border-radius: 0.5rem;">
+        <p class="text-xs text-muted" style="text-align: center;">
+          <strong>Disclaimer:</strong> These calculations provide estimates for planning purposes only.
+          Actual tax liability may vary based on deductions, credits, and individual circumstances.
+          Consult a CPA for tax filing advice.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Load and display budget results
+    document.addEventListener('DOMContentLoaded', function() {
+      const resultData = sessionStorage.getItem('budgetResult');
+
+      if (!resultData) {
+        alert('No budget data found. Please complete the budget builder first.');
+        window.location.href = 'budget-builder.html';
+        return;
+      }
+
+      const result = JSON.parse(resultData);
+      displayResults(result);
+    });
+
+    function displayResults(result) {
+      const summary = result.summary;
+
+      // Update gross income
+      document.getElementById('gross-income-needed').textContent = App.formatCurrency(summary.grossIncomeNeeded);
+      document.getElementById('monthly-gross').textContent = App.formatCurrency(summary.monthlyGrossNeeded);
+
+      // Update key insight
+      const takeHomePercent = ((summary.desiredTakeHome / summary.grossIncomeNeeded) * 100).toFixed(1);
+      const overheadTaxPercent = (100 - takeHomePercent).toFixed(1);
+      document.getElementById('key-insight').textContent = `To take home ${App.formatCurrency(summary.desiredTakeHome)} in your pocket, you need to earn ${Math.round((summary.grossIncomeNeeded / summary.desiredTakeHome - 1) * 100)}% MORE (${App.formatCurrency(summary.grossIncomeNeeded)}). Your tax + overhead burden is ${overheadTaxPercent}% of gross income.`;
+
+      // Personal breakdown
+      const personalBreakdown = document.getElementById('personal-breakdown');
+      personalBreakdown.innerHTML = `
+        <div class="breakdown-item">
+          <div class="breakdown-label">Annual Take-Home</div>
+          <div class="breakdown-value">
+            ${App.formatCurrency(summary.breakdown.personalTakeHome.amount)}
+            <span class="breakdown-percent">(${summary.breakdown.personalTakeHome.percent}%)</span>
+          </div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Monthly Take-Home</div>
+          <div class="breakdown-value">${App.formatCurrency(summary.breakdown.personalTakeHome.monthly)}</div>
+        </div>
+      `;
+
+      // Overhead breakdown
+      const overheadBreakdown = document.getElementById('overhead-breakdown');
+      const overhead = summary.breakdown.businessOverhead;
+      overheadBreakdown.innerHTML = `
+        <div class="breakdown-item">
+          <div class="breakdown-label">Health Insurance</div>
+          <div class="breakdown-value">${App.formatCurrency(overhead.components.healthInsurance)}</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Retirement Savings</div>
+          <div class="breakdown-value">${App.formatCurrency(overhead.components.retirement)}</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Business Expenses</div>
+          <div class="breakdown-value">${App.formatCurrency(overhead.components.businessExpenses)}</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Professional Development</div>
+          <div class="breakdown-value">${App.formatCurrency(overhead.components.professionalDev)}</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Cash Flow Buffer</div>
+          <div class="breakdown-value">${App.formatCurrency(overhead.components.cashFlowBuffer)}</div>
+        </div>
+        <div class="breakdown-item" style="font-weight: 600; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+          <div class="breakdown-label">Subtotal Overhead</div>
+          <div class="breakdown-value">
+            ${App.formatCurrency(overhead.amount)}
+            <span class="breakdown-percent">(${overhead.percent}%)</span>
+          </div>
+        </div>
+      `;
+
+      // Tax breakdown
+      const taxBreakdown = document.getElementById('tax-breakdown');
+      const taxes = summary.breakdown.taxes;
+      taxBreakdown.innerHTML = `
+        <div class="breakdown-item">
+          <div class="breakdown-label">Federal Income Tax</div>
+          <div class="breakdown-value">${App.formatCurrency(taxes.components.federal)}</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">State Income Tax</div>
+          <div class="breakdown-value">${App.formatCurrency(taxes.components.state)}</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Self-Employment Tax</div>
+          <div class="breakdown-value">${App.formatCurrency(taxes.components.selfEmployment)}</div>
+        </div>
+        <div class="breakdown-item" style="font-weight: 600; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+          <div class="breakdown-label">Subtotal Taxes</div>
+          <div class="breakdown-value">
+            ${App.formatCurrency(taxes.amount)}
+            <span class="breakdown-percent">(${taxes.percent}%)</span>
+          </div>
+        </div>
+      `;
+
+      // Tax details
+      const taxDetails = document.getElementById('tax-details');
+      const taxCalc = result.taxCalculation;
+      taxDetails.innerHTML = `
+        <div class="breakdown-item">
+          <div class="breakdown-label">Estimated Gross Income</div>
+          <div class="breakdown-value">${App.formatCurrency(taxCalc.estimatedGross)}</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Total Deductions</div>
+          <div class="breakdown-value">${App.formatCurrency(taxCalc.deductions.totalDeductions)}</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Taxable Income</div>
+          <div class="breakdown-value">${App.formatCurrency(taxCalc.taxableIncome)}</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">Effective Tax Rate</div>
+          <div class="breakdown-value">${taxCalc.effectiveTaxRate}%</div>
+        </div>
+      `;
+
+      // Update total
+      document.getElementById('total-gross').textContent = App.formatCurrency(summary.grossIncomeNeeded);
+    }
+
+    // Button handlers
+    document.getElementById('btn-download-pdf')?.addEventListener('click', function() {
+      alert('PDF download coming soon! For now, use your browser\'s print function (Cmd/Ctrl + P).');
+    });
+
+    document.getElementById('btn-email')?.addEventListener('click', function() {
+      alert('Email feature coming soon!');
+    });
+
+    document.getElementById('btn-recalculate')?.addEventListener('click', function() {
+      if (confirm('This will clear your current results. Are you sure?')) {
+        sessionStorage.removeItem('budgetResult');
+        window.location.href = 'budget-builder.html';
+      }
+    });
+  </script>
+</body>
+</html>
