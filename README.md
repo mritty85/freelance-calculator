@@ -304,12 +304,21 @@ See `/sheets/` directory for complete schema documentation:
 - State tax uses flat/median rates (simplified for MVP)
 - **Disclaimer: For planning purposes only, consult CPA for filing**
 
-### Data Privacy
-- User data stored in their own Google Sheet (if self-hosted)
-- Or in project Google Sheet (centralized MVP)
-- No external database
-- No personal data collected (email optional)
-- User IDs are random UUIDs
+### Data Privacy & User IDs
+- **No authentication in MVP** - Users are anonymous
+- **User IDs**: Random UUIDs generated in browser (e.g., `user_27e2cc21-359f...`)
+- **Stored in localStorage** - Same browser = same user ID for draft resume
+- **BudgetProfiles table only** - No Users table created in MVP
+- **No personal data collected** - No email, no login required
+- **Privacy-friendly** - Calculate rates without giving up any information
+
+**Why no Users table?**
+- Zero friction for validation testing
+- Users can calculate immediately
+- No signup barrier
+- Perfect for MVP validation phase
+
+**Future:** After validation, add optional email collection for quarterly updates
 
 ### Performance
 - GAS Web App can handle ~100 req/min
