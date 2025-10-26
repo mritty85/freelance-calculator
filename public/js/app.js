@@ -26,12 +26,10 @@ const App = (function() {
     };
 
     try {
+      // Use redirect mode to avoid CORS preflight
       const response = await fetch(CONFIG.GAS_WEB_APP_URL, {
         method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        redirect: 'follow',
         body: JSON.stringify(payload)
       });
 
