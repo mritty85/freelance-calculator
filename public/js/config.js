@@ -7,7 +7,7 @@
 const CONFIG = {
   // TODO: Replace with your GAS Web App URL after deployment
   // Example: 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec'
-  GAS_WEB_APP_URL: 'YOUR_GAS_WEB_APP_URL_HERE',
+  GAS_WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzbjnKLyRThU-h5iChhAt6f8e7NTc5RUjqnTy8yPXmsAyKBc6WqPvLSTK9Uc9rzdIVD/exec',
 
   // API timeout (milliseconds)
   API_TIMEOUT: 30000,
