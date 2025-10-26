@@ -182,7 +182,7 @@ const BudgetForm = (function() {
 
     // Step-specific validation
     if (currentStep === 1) {
-      if (!formData.location || !formData.filingStatus) {
+      if (!formData.location || !formData['filing-status']) {
         isValid = false;
         errorMessage = 'Please select your location and filing status';
       }
