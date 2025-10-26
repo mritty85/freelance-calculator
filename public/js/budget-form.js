@@ -40,8 +40,8 @@ const BudgetForm = (function() {
   // ==============================================================================
 
   function nextStep() {
+    saveCurrentStep(); // Save BEFORE validating
     if (validateCurrentStep()) {
-      saveCurrentStep();
       currentStep++;
 
       if (currentStep > totalSteps) {
