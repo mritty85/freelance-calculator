@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gig Evaluation Results - Freelance Rate Calculator</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .verdict-card {
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .verdict-excellent, .verdict-good {
+      background: #d1fae5;
+      border: 2px solid #10b981;
+    }
+    .verdict-acceptable {
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+    }
+    .verdict-walk-away {
+      background: #fee2e2;
+      border: 2px solid #ef4444;
+    }
+    .verdict-icon {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    .verdict-message {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .verdict-action {
+      font-size: 1rem;
+      color: #6b7280;
+    }
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 1rem;
+    }
+    .stat-label {
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #111827;
+    }
+    .stat-comparison {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+    .stat-comparison.positive {
+      color: #10b981;
+    }
+    .stat-comparison.negative {
+      color: #ef4444;
+    }
+    .warning-box {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+    }
+    .warning-box.high {
+      background: #fee2e2;
+      border-left-color: #ef4444;
+    }
+    .script-section {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border: 1px solid #e5e7eb;
+    }
+    .script-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .script-content {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+      display: none;
+    }
+    .script-content.show {
+      display: block;
+    }
+    .script-text {
+      background: white;
+      padding: 1rem;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    .copy-btn {
+      padding: 0.5rem 1rem;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .copy-btn:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div id="loading-overlay">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <div class="loading-message">Loading results...</div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div id="error-message" class="alert alert-danger" style="display: none; position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; min-width: 300px;"></div>
+  <div id="success-message" class="alert alert-success" style="display: none; position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; min-width: 300px;"></div>
+
+  <!-- Header -->
+  <header style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1rem 0;">
+    <div class="container">
+      <h2>Gig Evaluation Results</h2>
+      <p class="text-muted">Here's what we found</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="section">
+    <div class="container">
+      <!-- Verdict Section -->
+      <div id="verdict-section"></div>
+
+      <!-- Main Stats Grid -->
+      <div class="grid grid-cols-2" id="stats-grid"></div>
+
+      <!-- Warnings Section -->
+      <div id="warnings-section"></div>
+
+      <!-- Breakdown Section -->
+      <div class="card" id="breakdown-section">
+        <div class="card-header">
+          <h3>Earnings Breakdown</h3>
+        </div>
+        <div id="breakdown-content"></div>
+      </div>
+
+      <!-- Market Intelligence Section -->
+      <div class="card" id="market-intel-section" style="display: none;">
+        <div class="card-header">
+          <h3>Market Intelligence</h3>
+          <p class="text-muted">How does this compare to similar projects?</p>
+        </div>
+        <div id="market-intel-content">
+          <p class="text-muted">Loading market intelligence...</p>
+        </div>
+      </div>
+
+      <!-- Capacity Impact Section -->
+      <div class="card" id="capacity-section">
+        <div class="card-header">
+          <h3>Capacity Impact</h3>
+        </div>
+        <div id="capacity-content"></div>
+      </div>
+
+      <!-- Counter-Offers Section -->
+      <div class="card" id="counter-offers-section" style="display: none;">
+        <div class="card-header">
+          <h3>Counter-Offer Options</h3>
+          <p class="text-muted">If you need to negotiate higher</p>
+        </div>
+        <div id="counter-offers-content"></div>
+      </div>
+
+      <!-- Negotiation Scripts Section -->
+      <div class="card" id="scripts-section" style="display: none;">
+        <div class="card-header">
+          <h3>Negotiation Scripts</h3>
+          <p class="text-muted">AI-generated email templates you can customize</p>
+        </div>
+        <div id="scripts-content">
+          <p class="text-muted">Loading negotiation scripts...</p>
+        </div>
+      </div>
+
+      <!-- Actions Section -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Next Steps</h3>
+        </div>
+        <div class="card-body">
+          <button id="btn-export" class="btn btn-secondary">Export as PDF</button>
+          <button id="btn-new-evaluation" class="btn btn-primary">Evaluate Another Gig</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="text-muted text-small">Freelance Rate Calculator - Built to help you charge what you're worth.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/gig-results.js"></script>
+</body>
+</html>

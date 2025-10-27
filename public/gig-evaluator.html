@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluate a Gig - Freelance Rate Calculator</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div id="loading-overlay">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <div class="loading-message">Evaluating your gig...</div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div id="error-message" class="alert alert-danger" style="display: none; position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; min-width: 300px;"></div>
+  <div id="success-message" class="alert alert-success" style="display: none; position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1000; min-width: 300px;"></div>
+
+  <!-- Header -->
+  <header style="background: white; border-bottom: 1px solid #e5e7eb; padding: 1rem 0;">
+    <div class="container">
+      <h2>Evaluate a Gig</h2>
+      <p class="text-muted">Should you take this offer? Let's find out.</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="section">
+    <div class="container-sm">
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-steps">
+          <div class="progress-step active" data-step="1">
+            <span class="progress-step-number">1</span>
+            <span class="progress-step-label">Pricing</span>
+          </div>
+          <div class="progress-step" data-step="2">
+            <span class="progress-step-number">2</span>
+            <span class="progress-step-label">Details</span>
+          </div>
+          <div class="progress-step" data-step="3">
+            <span class="progress-step-number">3</span>
+            <span class="progress-step-label">Context</span>
+          </div>
+        </div>
+        <div class="progress-track">
+          <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <form id="gig-form">
+        <!-- Step 1: Pricing Model -->
+        <div id="step-1" class="form-step card">
+          <div class="card-header">
+            <h3>Step 1: How are you pricing this gig?</h3>
+            <p class="text-muted">Choose your pricing model</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label form-label-required">Pricing Model</label>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input type="radio" id="pricing-hourly" name="pricing-model" value="hourly" required>
+                <label for="pricing-hourly">
+                  <strong>Hourly / Time & Materials</strong>
+                  <span class="text-muted text-small">They're paying you by the hour</span>
+                </label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="pricing-project" name="pricing-model" value="project" checked required>
+                <label for="pricing-project">
+                  <strong>Project-based / Fixed Fee</strong>
+                  <span class="text-muted text-small">You're quoting a total project price</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Budget Profile Connection -->
+          <div class="form-group">
+            <label for="budget-profile-id" class="form-label">Budget Profile ID (optional)</label>
+            <input type="text" id="budget-profile-id" name="budget-profile-id" class="form-input" placeholder="budget_abc123">
+            <span class="form-help">From Budget Builder - used to compare against your target rate</span>
+          </div>
+
+          <!-- Manual Target Rate (fallback) -->
+          <div class="form-group">
+            <label for="manual-target-rate" class="form-label">Or enter your target rate manually</label>
+            <input type="number" id="manual-target-rate" name="manual-target-rate" class="form-input" min="0" step="5" placeholder="95">
+            <span class="form-help">Your desired hourly rate ($/hour)</span>
+          </div>
+        </div>
+
+        <!-- Step 2: Gig Details -->
+        <div id="step-2" class="form-step card" style="display: none;">
+          <div class="card-header">
+            <h3>Step 2: Gig Details</h3>
+            <p class="text-muted">Tell us about the offer</p>
+          </div>
+
+          <!-- Hourly Details -->
+          <div id="hourly-details" style="display: none;">
+            <div class="form-group">
+              <label for="hourly-rate" class="form-label form-label-required">Proposed Hourly Rate</label>
+              <input type="number" id="hourly-rate" name="hourly-rate" class="form-input" min="0" step="5" placeholder="85">
+              <span class="form-help">What they're offering per hour ($/hour)</span>
+            </div>
+
+            <div class="form-group">
+              <label for="hours-per-week" class="form-label form-label-required">Hours Per Week</label>
+              <input type="number" id="hours-per-week" name="hours-per-week" class="form-input" min="1" max="40" placeholder="20">
+              <span class="form-help">Expected weekly commitment</span>
+            </div>
+
+            <div class="form-group">
+              <label for="contract-weeks" class="form-label form-label-required">Contract Length (weeks)</label>
+              <input type="number" id="contract-weeks" name="contract-weeks" class="form-input" min="1" placeholder="12">
+              <span class="form-help">How long is this engagement?</span>
+            </div>
+          </div>
+
+          <!-- Project Details -->
+          <div id="project-details">
+            <div class="form-group">
+              <label for="project-fee" class="form-label form-label-required">Project Budget / Offer</label>
+              <input type="number" id="project-fee" name="project-fee" class="form-input" min="0" step="100" placeholder="5000">
+              <span class="form-help">Total project fee they're offering ($)</span>
+            </div>
+
+            <div class="form-group">
+              <label for="estimated-hours" class="form-label form-label-required">Your Estimated Hours</label>
+              <input type="number" id="estimated-hours" name="estimated-hours" class="form-input" min="1" placeholder="60">
+              <span class="form-help">How many hours do you think this will take?</span>
+            </div>
+
+            <div class="form-group">
+              <label for="timeline-weeks" class="form-label">Project Timeline (weeks)</label>
+              <input type="number" id="timeline-weeks" name="timeline-weeks" class="form-input" min="1" placeholder="4">
+              <span class="form-help">How long to complete this project?</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Context -->
+        <div id="step-3" class="form-step card" style="display: none;">
+          <div class="card-header">
+            <h3>Step 3: Project Context</h3>
+            <p class="text-muted">Help us give you better advice</p>
+          </div>
+
+          <div class="form-group">
+            <label for="client-type" class="form-label">Client Type</label>
+            <select id="client-type" name="client-type" class="form-select">
+              <option value="new">New client (first project)</option>
+              <option value="repeat">Repeat client (worked together before)</option>
+              <option value="agency">Agency / Middleman</option>
+              <option value="startup">Startup</option>
+              <option value="small-business">Small Business</option>
+              <option value="enterprise">Enterprise / Large Company</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="urgency" class="form-label">Project Urgency</label>
+            <select id="urgency" name="urgency" class="form-select">
+              <option value="normal" selected>Normal timeline</option>
+              <option value="rush">Rush project (tight deadline)</option>
+            </select>
+            <span class="form-help">Rush projects typically justify 25-50% premium</span>
+          </div>
+
+          <div class="form-group">
+            <label for="payment-terms" class="form-label">Payment Terms</label>
+            <select id="payment-terms" name="payment-terms" class="form-select">
+              <option value="net-30">Net 30 (payment in 30 days)</option>
+              <option value="net-60">Net 60 (payment in 60 days)</option>
+              <option value="net-90">Net 90 (payment in 90 days)</option>
+              <option value="milestone">Milestone payments</option>
+              <option value="upfront-50">50% upfront, 50% on completion</option>
+              <option value="completion">100% on completion</option>
+            </select>
+            <span class="form-help">Longer payment terms = higher cash flow risk</span>
+          </div>
+
+          <div class="form-group">
+            <label for="deliverables" class="form-label form-label-required">Deliverables / Scope</label>
+            <textarea id="deliverables" name="deliverables" class="form-textarea" rows="5" placeholder="Example: Design and develop responsive landing page with contact form, integrate with MailChimp, 2 rounds of revisions included" required></textarea>
+            <span class="form-help">List what you're delivering - helps AI estimate hours and market rates</span>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="form-navigation">
+          <button type="button" id="btn-prev" class="btn btn-secondary" style="display: none;">Previous</button>
+          <button type="button" id="btn-next" class="btn btn-primary">Next</button>
+          <button type="submit" id="btn-submit" class="btn btn-primary" style="display: none;">Evaluate This Gig</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="text-muted text-small">Freelance Rate Calculator - Built to help you charge what you're worth.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/gig-form.js"></script>
+</body>
+</html>
